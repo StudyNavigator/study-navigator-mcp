@@ -16,6 +16,7 @@
 		"zod": "^4.3.6"
 	},
 	"devDependencies": {
+		"@types/node": "^25.4.0",
 		"oxfmt": "^0.34.0",
 		"oxlint": "^1.49.0",
 		"typescript": "5.9.3",
