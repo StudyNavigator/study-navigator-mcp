@@ -36,15 +36,15 @@ Update with this configuration:
 
 ```json
 {
-	"mcpServers": {
-		"calculator": {
-			"command": "npx",
-			"args": [
-				"mcp-remote",
-				"http://localhost:8787/sse" // or remote-mcp-server-authless.your-account.workers.dev/sse
-			]
-		}
-	}
+  "mcpServers": {
+    "calculator": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://localhost:8787/sse" // or remote-mcp-server-authless.your-account.workers.dev/sse
+      ]
+    }
+  }
 }
 ```
 
