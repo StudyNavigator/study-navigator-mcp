@@ -64,6 +64,45 @@ export function registerSectionTools(server: McpServer, env: AppEnv) {
 		},
 	);
 
+	const upsertEventItemSchema = z.object({
+		id: z.string().optional().describe("Existing event ID; omit to create a new event"),
+		name: z.string().min(1),
+		description: z.string(),
+		eventType: z.enum(["lecture", "assessment", "assignment", "quiz", "other"]),
+		startsOn: z.string(),
+		startTime: z.string().nullable(),
+		endTime: z.string().nullable(),
+		topics: z.array(z.string()),
+	});
+
+	server.registerTool(
+		"upsert_section_events",
+		{
+			description:
+				"Create, update, and/or delete events for a section in one call. Omit `id` to create a new event; include `id` to update an existing one. Pass event IDs to `deleteIds` to delete them.",
+			inputSchema: {
+				sectionId: z.string().describe("The section ID"),
+				events: z.array(upsertEventItemSchema),
+				deleteIds: z.array(z.string()).describe("IDs of events to delete"),
+			},
+		},
+		async ({ sectionId, events, deleteIds }) => {
+			try {
+				const data = await api<{ events: SectionEvent[] }>(`/api/sections/${sectionId}/events`, {
+					method: "PUT",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ events, deleteIds }),
+				});
+
+				return {
+					content: [{ type: "text", text: `Done. ${data.events.length} event(s) now in section.` }],
+				};
+			} catch (err) {
+				return { content: [{ type: "text", text: String(err) }] };
+			}
+		},
+	);
+
 	server.registerTool(
 		"list_section_events",
 		{
