@@ -24,5 +24,8 @@
 	},
 	"observability": {
 		"enabled": true
+	},
+	"vars": {
+		"STUDY_NAVIGATOR_API_URL": "https://sn.atomicjolt.xyz"
 	}
 }
